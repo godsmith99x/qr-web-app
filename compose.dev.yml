@@ -20,6 +20,17 @@ services:
       - qr-app-frontend
   # End of Traefik services
 
+  nginx:
+    image: nginx:1.21.3
+    container_name: test-service
+    restart: unless-stopped
+    networks:
+      - qr-app-frontend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.qr-app-frontend.rule=Host(`test-service.localhost`)"
+      - "traefik.http.routers.qr-app-frontend.entrypoints=web"
+
   # Authentik services:
   # docs: https://docs.goauthentik.io/docs/install-config/install/docker-compose
   # tutorial: https://www.youtube.com/watch?v=N5unsATNpJk&t=157s
